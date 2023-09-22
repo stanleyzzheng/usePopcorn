@@ -28,6 +28,7 @@ body {
   background-color: var(--color-background-900);
   padding: 2.4rem;
 }
+
 /* ******* */
 
 .nav-bar {
@@ -51,10 +52,9 @@ body {
 .box {
   width: 42rem;
   max-width: 42rem;
-  height: 100%;
   background-color: var(--color-background-500);
   border-radius: 0.9rem;
-  overflow: auto;
+  overflow: scroll;
   position: relative;
 }
 
@@ -138,7 +138,7 @@ body {
 .list {
   list-style: none;
   padding: 0.8rem 0;
-  overflow: auto;
+  overflow: scroll;
 }
 
 .list-watched {

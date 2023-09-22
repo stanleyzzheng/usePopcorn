@@ -1,0 +1,6 @@
+<div class="box">
+  <button (click)="toggleOpen()" class="btn-toggle">
+    {{ isOpen ? "–" : "+" }}
+  </button>
+  <ng-content *ngIf="isOpen"></ng-content>
+</div>

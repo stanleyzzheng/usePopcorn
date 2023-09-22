@@ -1,0 +1,22 @@
+<!-- <div class="details"> -->
+<app-loader *ngIf="isLoading | async; else content"></app-loader>
+<ng-template #content>
+  <div *ngIf="selectedMovie | async" class="details">
+    <!-- {isLoading ? (
+    <Loader />
+    ) : ( <> -->
+    <header>
+      <button class="btn-back" (click)="handleCloseMovie()">&larr;</button>
+      <img src="{{ poster }}" />
+      <div class="details-overview">
+        <h2>{{ title }}</h2>
+        <p>{{ released }} &bull; {{ runtime }}</p>
+        <p>{{ genre }}</p>
+        <p>
+          <span>⭐️</span>
+          {{ imdbRating }} IMDb rating
+        </p>
+      </div>
+    </header>
+  </div>
+</ng-template>

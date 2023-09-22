@@ -1,0 +1,15 @@
+<app-loader *ngIf="isLoading | async; else content"></app-loader>
+<ng-template #content>
+  <ul class="list list-movies">
+    <li *ngFor="let movie of movies | async" (click)="selectMovie(movie)">
+      <img src="{{ movie.Poster }}" alt="`{{ movie.Title }} poster" />
+      <h3>{{ movie.Title }}</h3>
+      <div>
+        <p>
+          <span>🗓</span>
+          <span>{{ movie.Year }}</span>
+        </p>
+      </div>
+    </li>
+  </ul>
+</ng-template>
