@@ -21,7 +21,7 @@ export class MovieService {
   constructor(private http: HttpClient) {}
 
   private KEY = 'fe53aa19';
-  private Url = `http://www.omdbapi.com/?apikey=${this.KEY}`;
+  private Url = `https://www.omdbapi.com/?apikey=${this.KEY}`;
   private movieData = new BehaviorSubject<Movie[] | null>(null);
   movieData$ = this.movieData.asObservable();
   private selectedMovieSubject = new BehaviorSubject<MovieDetail | null>(null);
