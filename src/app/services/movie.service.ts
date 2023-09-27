@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Movie } from '../movie';
-import { MOVIES } from '../mock-movies';
 import {
   BehaviorSubject,
   Observable,
   catchError,
   finalize,
   map,
-  of,
-  tap,
+  // of,
+  // tap,
   throwError,
 } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -46,7 +45,10 @@ export class MovieService {
     return this.http.get<Movie>(url);
   }
   searchMovies(query: string): void {
-    if (query.length < 3) return;
+    if (query.length < 3) {
+      this.movieData.next([]);
+      return;
+    }
     this.isLoadingMoviesSubject.next(true);
 
     this.http

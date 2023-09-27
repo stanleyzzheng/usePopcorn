@@ -4,7 +4,7 @@
     <div>
       <p>
         <span>#️⃣</span>
-        <span>{{ watched.length }} movies</span>
+        <span>{{ watchedMovies.length }} movies</span>
       </p>
       <p>
         <span>⭐️</span>
@@ -21,10 +21,10 @@
     </div>
   </div>
 
-  <ul class="list" *ngFor="let movie of watched">
+  <ul class="list" *ngFor="let movie of watchedMovies">
     <li>
-      <img src="{{ movie.Poster }}" alt="{{ movie.Title }} poster" />
-      <h3>{{ movie.Title }}</h3>
+      <img src="{{ movie.poster }}" alt="{{ movie.title }} poster" />
+      <h3>{{ movie.title }}</h3>
       <div>
         <p>
           <span>⭐️</span>
@@ -38,6 +38,8 @@
           <span>⏳</span>
           <span>{{ movie.runtime }} min</span>
         </p>
+
+        <button class="btn-delete" (click)="handleDelete(movie)">X</button>
       </div>
     </li>
   </ul>

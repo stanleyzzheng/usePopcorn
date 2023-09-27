@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, EventEmitter, Output } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { Observable, Subscription, of } from 'rxjs';
 // import { Movie } from 'src/app/movie';
 import { MovieDetail } from 'src/app/movie-detail';
 import { LoadingService } from 'src/app/services/loading.service';
 import { MovieService } from 'src/app/services/movie.service';
+import { watched } from 'src/app/watched';
 
 @Component({
   selector: 'app-movie-detail',
@@ -13,69 +14,38 @@ import { MovieService } from 'src/app/services/movie.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MovieDetailComponent implements OnInit {
-  // selectedMovie: MovieDetail | null = null;
   selectedMovie?: Observable<MovieDetail | null>;
-  // private movieDetailsSubscription: Subscription | undefined;
   isLoading: Observable<boolean> = of(false);
-
+  @Output() addWatchedMovie = new EventEmitter<watched>();
+  imdbID: string = '';
   title: string = '';
   year: string = '';
   poster: string = '';
   runtime: string = '';
-  imdbRating: string = '';
+  imdbRating: number = 0;
   plot: string = '';
   released: string = '';
   actors: string = '';
   director: string = '';
   genre: string = '';
 
-  constructor(
-    private movieService: MovieService,
-    private loadingService: LoadingService
-  ) {}
+  constructor(private movieService: MovieService) {}
 
   ngOnInit(): void {
-    // this.movieDetailsSubscription =
-    //   this.movieService.selectedMovieDetail$.subscribe((movie) => {
-    //     this.selectedMovie = movie || null;
-    //     if (this.selectedMovie) {
-    //       const {
-    //         Title: title,
-    //         Year: year,
-    //         Poster: poster,
-    //         Runtime: runtime,
-    //         imdbRating,
-    //         Plot: plot,
-    //         Released: released,
-    //         Actors: actors,
-    //         Director: director,
-    //         Genre: genre,
-    //       } = this.selectedMovie;
-
-    //       // Assign the destructured values to component properties
-    //       this.title = title;
-    //       this.year = year;
-    //       this.poster = poster;
-    //       this.runtime = runtime;
-    //       this.imdbRating = imdbRating;
-    //       this.plot = plot;
-    //       this.released = released;
-    //       this.actors = actors;
-    //       this.director = director;
-    //       this.genre = genre;
-    //     }
-    //   });
     this.selectedMovie = this.movieService.selectedMovieDetail$;
 
     this.isLoading = this.movieService.isLoadingMovieDetails$;
     this.selectedMovie.subscribe((movie) => {
       if (movie !== null) {
+        console.log(movie);
+        this.imdbID = movie.imdbID;
+
         const {
           Title: title,
           Year: year,
           Poster: poster,
           Runtime: runtime,
-          imdbRating,
+          // imdbRating: Number(movie.imdbRating),
           Plot: plot,
           Released: released,
           Actors: actors,
@@ -88,7 +58,7 @@ export class MovieDetailComponent implements OnInit {
         this.year = year;
         this.poster = poster;
         this.runtime = runtime;
-        this.imdbRating = imdbRating;
+        this.imdbRating = movie.imdbRating;
         this.plot = plot;
         this.released = released;
         this.actors = actors;
@@ -101,8 +71,17 @@ export class MovieDetailComponent implements OnInit {
     this.movieService.clearSelectedMovie();
   }
 
-  // ngOnDestroy() {
-  //   if (this.movieDetailsSubscription)
-  //     this.movieDetailsSubscription.unsubscribe();
-  // }
+  handleAddWatched(): void {
+    const newWatched: watched = {
+      imdbID: this.imdbID,
+      title: this.title,
+      year: this.year,
+      poster: this.poster,
+      runtime: Number(this.runtime.split(' ').at(0)),
+      imdbRating: Number(this.imdbRating),
+      userRating: 2,
+    };
+    this.addWatchedMovie.emit(newWatched);
+    this.handleCloseMovie();
+  }
 }
