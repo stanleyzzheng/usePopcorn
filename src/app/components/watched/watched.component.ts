@@ -46,7 +46,9 @@ export class WatchedComponent {
     if (arr.length === 0) {
       return 0; // Handle the case when the array is empty
     }
-    return arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
+    return arr
+      .reduce((acc, cur, i, arr) => acc + cur / arr.length, 0)
+      .toFixed(2);
 
     // const sum = arr.reduce((acc, cur) => acc + cur, 0);
     // return sum / arr.length;
