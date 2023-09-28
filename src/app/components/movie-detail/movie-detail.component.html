@@ -19,9 +19,16 @@
       </div>
     </header>
     <section>
-      <button class="btn-add" (click)="handleAddWatched()">
-        + Add to list
-      </button>
+      <div class="rating">
+        <button class="btn-add" (click)="handleAddWatched()">
+          + Add to list
+        </button>
+      </div>
+      <p>
+        <em>{{ plot }}</em>
+      </p>
+      <p>Starring {{ actors }}</p>
+      <p>Directed by {{ director }}</p>
     </section>
   </div>
 </ng-template>
