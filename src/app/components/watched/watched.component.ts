@@ -5,8 +5,7 @@ import {
   Output,
   EventEmitter,
 } from '@angular/core';
-import { LocalStorageService } from 'src/app/services/local-storage.service';
-import { WatchedService } from 'src/app/services/watched.service';
+
 import { watched } from 'src/app/watched';
 
 @Component({
@@ -25,14 +24,20 @@ export class WatchedComponent {
 
   calculateAverages(): void {
     this.avgImdbRating = this.average(
-      this.watchedMovies.map((movie) => movie.imdbRating)
+      this.watchedMovies.map((movie) => {
+        if (movie.imdbRating == 'N/A') return;
+        return movie.imdbRating;
+      })
     );
 
     this.avgUserRating = this.average(
       this.watchedMovies.map((movie) => movie.userRating)
     );
     this.avgRuntime = this.average(
-      this.watchedMovies.map((movie) => movie.runtime)
+      this.watchedMovies.map((movie) => {
+        if (movie.runtime === 'N/A') return;
+        return movie.runtime;
+      })
     );
   }
   ngOnChanges(changes: SimpleChanges) {
@@ -40,7 +45,6 @@ export class WatchedComponent {
     if (changes['watchedMovies'] && this.watchedMovies.length > 0) {
       this.calculateAverages();
     }
-    console.log(this.watchedMovies);
   }
   average(arr: any[]) {
     if (arr.length === 0) {

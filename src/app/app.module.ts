@@ -11,6 +11,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { MovieDetailComponent } from './components/movie-detail/movie-detail.component';
 import { LoaderComponent } from './components/loader/loader.component';
 import { BoxComponent } from './components/box/box.component';
+import { StarRatingComponent } from './components/star-rating/star-rating.component';
+import { StarComponent } from './components/star/star.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,8 @@ import { BoxComponent } from './components/box/box.component';
     MovieDetailComponent,
     LoaderComponent,
     BoxComponent,
+    StarRatingComponent,
+    StarComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [],

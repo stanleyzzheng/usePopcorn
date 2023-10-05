@@ -6,13 +6,14 @@
 
   <app-box>
     <app-movie-detail
-      *ngIf="selectedMovie !== null"
+      *ngIf="selectedMovie$ !== null"
       (addWatchedMovie)="addWatchedMovie($event)"
+      [watchedMovies]="watchedMovies"
     ></app-movie-detail>
     <app-watched
       [watchedMovies]="watchedMovies"
       (removeWatchedMovie)="removeWatchedMovie($event)"
-      *ngIf="selectedMovie === null"
+      *ngIf="selectedMovie$ === null"
     ></app-watched>
   </app-box>
 </main>

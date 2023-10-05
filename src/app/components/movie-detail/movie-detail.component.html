@@ -20,9 +20,23 @@
     </header>
     <section>
       <div class="rating">
-        <button class="btn-add" (click)="handleAddWatched()">
-          + Add to list
-        </button>
+        <ng-container *ngIf="isWatched === false">
+          <app-star-rating
+            (onSetRating)="onSetRating($event)"
+            [size]="24"
+            [maxRating]="10"
+          ></app-star-rating>
+          <button
+            class="btn-add"
+            (click)="handleAddWatched()"
+            *ngIf="userRating"
+          >
+            + Add to list
+          </button>
+        </ng-container>
+        <p *ngIf="isWatched === true">
+          You rated with movie {{ watchedUserRating }} <span>⭐️</span>
+        </p>
       </div>
       <p>
         <em>{{ plot }}</em>

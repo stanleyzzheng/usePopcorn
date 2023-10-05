@@ -1,9 +1,13 @@
-import { ChangeDetectionStrategy, EventEmitter, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  EventEmitter,
+  Output,
+  Input,
+} from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { Observable, Subscription, of } from 'rxjs';
 // import { Movie } from 'src/app/movie';
 import { MovieDetail } from 'src/app/movie-detail';
-import { LoadingService } from 'src/app/services/loading.service';
 import { MovieService } from 'src/app/services/movie.service';
 import { watched } from 'src/app/watched';
 
@@ -17,17 +21,23 @@ export class MovieDetailComponent implements OnInit {
   selectedMovie?: Observable<MovieDetail | null>;
   isLoading: Observable<boolean> = of(false);
   @Output() addWatchedMovie = new EventEmitter<watched>();
+  @Input() watchedMovies: watched[] = [];
+  isWatched: boolean = false;
+
+  userRating: number = 0;
+
   imdbID: string = '';
   title: string = '';
   year: string = '';
   poster: string = '';
   runtime: string = '';
-  imdbRating: number = 0;
+  imdbRating: number | string = 0;
   plot: string = '';
   released: string = '';
   actors: string = '';
   director: string = '';
   genre: string = '';
+  watchedUserRating: number | undefined = 0;
 
   constructor(private movieService: MovieService) {}
 
@@ -37,15 +47,21 @@ export class MovieDetailComponent implements OnInit {
     this.isLoading = this.movieService.isLoadingMovieDetails$;
     this.selectedMovie.subscribe((movie) => {
       if (movie !== null) {
-        console.log(movie);
         this.imdbID = movie.imdbID;
+        this.isWatched = this.watchedMovies
+          .map((movie) => movie.imdbID)
+          .includes(movie.imdbID);
+        if (this.isWatched) {
+          this.watchedUserRating = this.watchedMovies.find(
+            (movie) => movie.imdbID === this.imdbID
+          )?.userRating;
+        }
 
         const {
           Title: title,
           Year: year,
           Poster: poster,
           Runtime: runtime,
-          // imdbRating: Number(movie.imdbRating),
           Plot: plot,
           Released: released,
           Actors: actors,
@@ -67,6 +83,11 @@ export class MovieDetailComponent implements OnInit {
       }
     });
   }
+
+  onSetRating(rating: number) {
+    this.userRating = rating;
+  }
+
   handleCloseMovie() {
     this.movieService.clearSelectedMovie();
   }
@@ -79,7 +100,7 @@ export class MovieDetailComponent implements OnInit {
       poster: this.poster,
       runtime: Number(this.runtime.split(' ').at(0)),
       imdbRating: Number(this.imdbRating),
-      userRating: 2,
+      userRating: this.userRating,
     };
     this.addWatchedMovie.emit(newWatched);
     this.handleCloseMovie();

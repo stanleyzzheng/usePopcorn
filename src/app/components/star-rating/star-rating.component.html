@@ -1,0 +1,13 @@
+<div [style]="containerStyle">
+  <div [style]="starContainerStyle">
+    <app-star
+      *ngFor="let star of stars; let i = index"
+      [full]="tempRating ? tempRating >= star : rating >= star"
+      (onRate)="handleRating(i + 1)"
+      (hoverIn)="setTempRating(star)"
+      (hoverOut)="setTempRating(0)"
+      [color]="color"
+      [size]="size"
+    ></app-star>
+  </div>
+</div>

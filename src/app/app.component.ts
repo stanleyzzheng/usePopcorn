@@ -13,7 +13,7 @@ import { watched } from './watched';
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = 'usePopcorn';
-  selectedMovie: MovieDetail | null = null;
+  selectedMovie$: MovieDetail | null = null;
   private selectedMovieSubscription: Subscription | undefined;
   isLoading: boolean = false;
   watchedMovies: watched[] = [];
@@ -24,12 +24,12 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.loadWatchedMovies();
+
     this.selectedMovieSubscription =
       this.movieService.selectedMovieDetail$.subscribe((movie) => {
-        this.selectedMovie = movie;
+        this.selectedMovie$ = movie;
       });
-
-    this.loadWatchedMovies();
   }
   loadWatchedMovies(): void {
     const storedWatchedMovies = this.localStorageService.get<watched[]>(
