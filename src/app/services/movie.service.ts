@@ -79,6 +79,7 @@ export class MovieService {
         finalize(() => this.isLoadingMovieDetailsSubject.next(false))
       )
       .subscribe((results) => {
+        console.log(results);
         this.selectedMovieSubject.next(results);
       });
   }

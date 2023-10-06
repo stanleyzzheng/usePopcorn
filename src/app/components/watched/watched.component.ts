@@ -24,20 +24,25 @@ export class WatchedComponent {
 
   calculateAverages(): void {
     this.avgImdbRating = this.average(
-      this.watchedMovies.map((movie) => {
-        if (movie.imdbRating == 'N/A') return;
-        return movie.imdbRating;
-      })
+      this.watchedMovies
+        .filter(
+          (movie) =>
+            !Number.isNaN(movie.imdbRating) && movie.imdbRating !== null
+        )
+        .map((movie) => movie.imdbRating)
     );
 
     this.avgUserRating = this.average(
       this.watchedMovies.map((movie) => movie.userRating)
     );
     this.avgRuntime = this.average(
-      this.watchedMovies.map((movie) => {
-        if (movie.runtime === 'N/A') return;
-        return movie.runtime;
-      })
+      this.watchedMovies
+        .filter(
+          (movie) => movie.runtime !== null && !Number.isNaN(movie.runtime)
+        )
+        .map((movie) => {
+          return movie.runtime;
+        })
     );
   }
   ngOnChanges(changes: SimpleChanges) {
@@ -51,7 +56,10 @@ export class WatchedComponent {
       return 0; // Handle the case when the array is empty
     }
     return arr
-      .reduce((acc, cur, i, arr) => acc + cur / arr.length, 0)
+      .reduce((acc, cur, i, arr) => {
+        if (cur) return acc + cur / arr.length;
+        return acc;
+      }, 0)
       .toFixed(2);
 
     // const sum = arr.reduce((acc, cur) => acc + cur, 0);

@@ -31,7 +31,7 @@ export class MovieDetailComponent implements OnInit {
   year: string = '';
   poster: string = '';
   runtime: string = '';
-  imdbRating: number | string = 0;
+  imdbRating: number = 0;
   plot: string = '';
   released: string = '';
   actors: string = '';
@@ -48,9 +48,11 @@ export class MovieDetailComponent implements OnInit {
     this.selectedMovie.subscribe((movie) => {
       if (movie !== null) {
         this.imdbID = movie.imdbID;
+
         this.isWatched = this.watchedMovies
           .map((movie) => movie.imdbID)
           .includes(movie.imdbID);
+
         if (this.isWatched) {
           this.watchedUserRating = this.watchedMovies.find(
             (movie) => movie.imdbID === this.imdbID

@@ -3,7 +3,7 @@ export interface watched {
   title: string;
   year: string;
   poster: string;
-  runtime: number | string;
-  imdbRating: number | string;
+  runtime: number;
+  imdbRating: number;
   userRating: number;
 }
